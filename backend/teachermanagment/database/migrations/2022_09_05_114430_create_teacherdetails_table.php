@@ -14,7 +14,7 @@ class CreateTeacherdetailsTable extends Migration
     public function up()
     {
         Schema::create('teacherdetails', function (Blueprint $table) {
-            $table->id('teacherdetails_id');
+            $table->id();
             $table->string('name');
             $table->string('qualification');
             $table->time('start_timing');

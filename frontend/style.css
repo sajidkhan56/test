@@ -1,0 +1,47 @@
+body{
+    background-color:#FFEBEE
+}
+.card{
+    width:400px;background-color:#fff;
+    border:none;
+    border-radius: 12px
+}
+.form-control{
+    height: 48px !important;
+    border: 2px solid #eee;
+    border-radius: 10px
+}
+.form-control:focus{
+    box-shadow: none;
+    border: 2px solid #039BE5
+}
+.submit{
+    height: 50px;
+    border-radius: 10px
+}
+h5{
+    text-align: center;
+}
+h4{
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding-left: 10px;
+}
+.last{
+    float: right;
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+.msg{
+    color: green;
+}
+i{
+    margin-right: 5px;
+}
+.error {
+    color: red;
+    margin-left: 5px;
+}
+label.error {
+    display: inline;
+}
