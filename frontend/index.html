@@ -12,34 +12,121 @@
                     url: "http://localhost:8000/api/getteacherdetails", 
                     cache: false,
                     success: function(response){
-                        jQuery.each(response.teacher_list, function(key, value){
-                        $('tbody').append('<tr>\
-                             <td class="border">'+value.name+'</td>\
-                             <td class="border">'+value.qualification+'</td>\
-                             <td class="border">'+value.start_timing+'-'+value.end_timing+'</td>\
-                             <td>\
-                            <button class="btn btn-success btn-sm edit" value="'+value.id+'"><i class="fas fa-pencil-alt"></i>Edit</button>\
-                            <button class="btn btn-danger btn-sm delete" value="'+value.id+'"><i class="fas fa-trash-alt"></i>Delete</button>\
-                            </td>\
-                            </tr>'
-                        ); 
-                    }); 
-                    $(".edit").click(function(){
-                        var value = $(this).val();
-                        alert(value);
-                    });
-                    $(".delete").click(function(){
-                        var value = $(this).val();
-                        $.ajax({
-                            url: "http://localhost:8000/api/delete", 
-                            cache: false,
-                            data: {'id': value},
-                            success: function(response){
-                                $('#showmsg').append('<span class="error">'+response.msg+'</span>');
-                                location.reload(true);
-                            }
-                        });
-                    });
+                            jQuery.each(response.teacher_list, function(key, value){
+                                $('tbody').append('<tr>\
+                                    <td class="border">'+value.name+'</td>\
+                                    <td class="border">'+value.qualification+'</td>\
+                                    <td class="border">'+value.start_timing+'-'+value.end_timing+'</td>\
+                                    <td>\
+                                    <button class="btn btn-success btn-sm edit" value="'+value.id+'"><i class="fas fa-pencil-alt"></i>Edit</button>\
+                                    <button class="btn btn-danger btn-sm delete" value="'+value.id+'"><i class="fas fa-trash-alt"></i>Delete</button>\
+                                    </td>\
+                                    </tr>'
+                                ); 
+                            });
+                            $(".edit").click(function(){
+                                var value = $(this).val();
+                                $.ajax({
+                                    url: "http://localhost:8000/api/edit", 
+                                    cache: false,
+                                    data: {'id': value},
+                                    success: function(response){
+                                        $('body').empty();
+                                        $('body').append('\
+                                        <div class="container mt-5 mb-5 d-flex justify-content-center">\
+                                            <form id="form_data" action="" method="post">\
+                                                <input type="hidden" name="id" id="id" value="'+value+'"/>\
+                                                <div class="card">\
+                                                    <div class="card-body">\
+                                                        <h5 class="card-title" id="showmsg">Teacher Detail</h5>\
+                                                        <div class="row">\
+                                                            <div class="col-sm-12">\
+                                                                <div class="form-group">\
+                                                                    <label>Name:</label>\
+                                                                    <input class="form-control" type="text" placeholder="Name" id="name" name="name" value="'+response.teacher_record.name+'">\
+                                                                </div>\
+                                                            </div>\
+                                                        </div>\
+                                                        <div class="row">\
+                                                            <div class="col-sm-12">\
+                                                                <div class="form-group">\
+                                                                    <label>Qualification:</label>\
+                                                                    <div class="input-group">\
+                                                                        <select name="qualification" id="qualification" class="form-control">\
+                                                                        <option value="Secondary"'+(response.teacher_record.qualification == 'Secondary' ? 'selected':'')+'>Secondary</option>\
+                                                                        <option value="Bachelors Pass"'+(response.teacher_record.qualification == 'Bachelors Pass' ? 'selected':'')+'>Bachelors Pass</option>\
+                                                                        <option value="Bachelor degree (Pass/Honours)"'+(response.teacher_record.qualification == 'Bachelor degree (Pass/Honours)' ? 'selected':'')+'>Bachelor degree (Pass/Honours)</option>\
+                                                                        <option value="Masters degree"'+(response.teacher_record.qualification == 'Masters degree' ? 'selected':'')+'>Master degree</option>\
+                                                                        <option value="PHD degree"'+(response.teacher_record.qualification == 'PHD degree' ? 'selected':'')+'>PHD degree</option>\
+                                                                        <option value="Others"'+(response.teacher_record.qualification == 'Others' ? 'selected':'')+'>Others</option>\
+                                                                        </select>\
+                                                                    </div>\
+                                                                </div>\
+                                                            </div>\
+                                                        </div>\
+                                                        <div class="row">\
+                                                            <div class="col-sm-12">\
+                                                                <div class="form-group">\
+                                                                    <label>Start Time:</label>\
+                                                                    <div class="input-group">\
+                                                                        <input class="form-control" type="time" value="'+response.teacher_record.start_timing+'" name="start_time" id="start_time">\
+                                                                    </div>\
+                                                                </div>\
+                                                            </div>\
+                                                        </div>\
+                                                        <div class="row">\
+                                                            <div class="col-sm-12">\
+                                                                <div class="form-group">\
+                                                                    <label>End Time:</label>\
+                                                                    <div class="input-group">\
+                                                                        <input class="form-control" type="time" value="'+response.teacher_record.end_timing+'" name="end_time" id="end_time">\
+                                                                    </div>\
+                                                                </div>\
+                                                            </div>\
+                                                        </div>\
+                                                        <input type="submit" class="btn btn-primary btn-block submit" id="submit" value="Edit"/>\
+                                                    </div>\
+                                                </div>\
+                                            </form>\
+                                        </div>');
+
+                                        $('#form_data').submit(function(e) { 
+                                            e.preventDefault();
+                                            var form_data = [];
+                                            
+                                            var id = $('#id').val();
+                                            var name = $('#name').val();
+                                            var qualification = $('#qualification').val();
+                                            var start_time = $('#start_time').val();
+                                            var end_time = $('#end_time').val();
+
+                                            form_data = [id, name, qualification, start_time, end_time];
+                                        
+                                             $.ajax({
+                                                 url: "http://localhost:8000/api/editdetails", 
+                                                 cache: false,
+                                                 type: "post",
+                                                 data: {formdata : form_data},
+                                                 success: function(response){
+                                                     $('#showmsg').after('<span class="msg">'+response.msg+'</span>');
+                                                 }
+                                             });
+                                        });
+                                    }
+                                });
+                            });
+                            $(".delete").click(function(){
+                                var value = $(this).val();
+                                $.ajax({
+                                    url: "http://localhost:8000/api/delete", 
+                                    cache: false,
+                                    data: {'id': value},
+                                    success: function(response){
+                                        $('#showmsg').append('<span class="error">'+response.msg+'</span>');
+                                        location.reload(true);
+                                    }
+                                });
+                            });
                     }
                 });
             });
@@ -60,7 +147,6 @@
                 </tr>
             </thead>
             <tbody>
-                 
             </tbody>
         </table>
     </body>
