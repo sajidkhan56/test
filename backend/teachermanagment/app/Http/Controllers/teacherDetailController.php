@@ -39,10 +39,10 @@ class teacherDetailController extends Controller
         return redirect('/')->with('msg', 'Teacher Record updated Successfully');
     }
 
-    public function deleteTeacherDetails($id)
-    {
-        teacherDetail::where('id',$id)->delete();
-        return redirect('/')->with('msg', 'Teacher Record Deleted Successfully');
+    public function deleteTeacherDetails(Request $request)
+    {    
+        teacherDetail::where('id',$request->id)->delete();
+        return (['msg' => 'Teacher Deleted Successfully']);
     }
 
 }

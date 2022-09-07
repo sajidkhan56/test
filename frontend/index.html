@@ -18,12 +18,28 @@
                              <td class="border">'+value.qualification+'</td>\
                              <td class="border">'+value.start_timing+'-'+value.end_timing+'</td>\
                              <td>\
-                            <a href=""><button class="btn btn-success btn-sm"><i class="fas fa-pencil-alt"></i>Edit</button></a>\
-                            <a href=""><button class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i>Delete</button></a>\
+                            <button class="btn btn-success btn-sm edit" value="'+value.id+'"><i class="fas fa-pencil-alt"></i>Edit</button>\
+                            <button class="btn btn-danger btn-sm delete" value="'+value.id+'"><i class="fas fa-trash-alt"></i>Delete</button>\
                             </td>\
                             </tr>'
                         ); 
                     }); 
+                    $(".edit").click(function(){
+                        var value = $(this).val();
+                        alert(value);
+                    });
+                    $(".delete").click(function(){
+                        var value = $(this).val();
+                        $.ajax({
+                            url: "http://localhost:8000/api/delete", 
+                            cache: false,
+                            data: {'id': value},
+                            success: function(response){
+                                $('#showmsg').append('<span class="error">'+response.msg+'</span>');
+                                location.reload(true);
+                            }
+                        });
+                    });
                     }
                 });
             });
@@ -31,7 +47,7 @@
     </head>
     <body>
         <h4>Teacher's List <a href="addschedule"><button class="btn btn-primary last"><i class="fas fa-plus"></i>Add Schedule</button></a><a href="teacherform.html"><button class="btn btn-primary last"><i class="fas fa-plus"></i>Add Teacher</button></a></h4>
-        <div class="msg">
+        <div id="showmsg">
              
         </div>
         <table class="table table-bordered">

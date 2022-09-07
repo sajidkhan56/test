@@ -21,3 +21,4 @@ use App\Http\Controllers\teacherScheduleController;
  });
 Route::get('/getteacherdetails', [teacherDetailController::class, 'getTeacherDetails']);
 Route::post('/teacherdetails', [teacherDetailController::class, 'setTeacherDetails']);
+Route::get('/delete', [teacherDetailController::class, 'deleteTeacherDetails']);
