@@ -14,8 +14,9 @@ class CreateTeacherschedulesTable extends Migration
     public function up()
     {
         Schema::create('teacherschedules', function (Blueprint $table) {
-            $table->id('teacherschedules_id');
-            $table->string('class');
+            $table->id();
+            $table->string('teacher_name');
+            $table->string('class_name');
             $table->string('subject');
             $table->time('start_time');
             $table->time('end_time');

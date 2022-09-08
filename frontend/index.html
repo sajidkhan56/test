@@ -20,6 +20,7 @@
                                     <td>\
                                     <button class="btn btn-success btn-sm edit" value="'+value.id+'"><i class="fas fa-pencil-alt"></i>Edit</button>\
                                     <button class="btn btn-danger btn-sm delete" value="'+value.id+'"><i class="fas fa-trash-alt"></i>Delete</button>\
+                                    <button class="btn btn-info btn-sm view" value="'+value.name+'"><i class="fas fa-eye"></i>View Schedule</button>\
                                     </td>\
                                     </tr>'
                                 ); 
@@ -115,6 +116,7 @@
                                     }
                                 });
                             });
+
                             $(".delete").click(function(){
                                 var value = $(this).val();
                                 $.ajax({
@@ -127,13 +129,40 @@
                                     }
                                 });
                             });
+
+                            $(".view").click(function(){
+                                var value = $(this).val();
+                                $.ajax({
+                                    url: "http://localhost:8000/api/view", 
+                                    cache: false,
+                                    data: {'name': value},
+                                    success: function(response){
+                                        $('tbody').empty();
+                                        $('thead').empty();
+                                        $('thead').append('<tr>\
+                                                            <th>Class</th>\
+                                                            <th>Subject</th>\
+                                                            <th>Duration</th>\
+                                                        </tr>'
+                                                    );
+                                        jQuery.each(response.teacher_schedule, function(key, value){
+                                             $('tbody').append('<tr>\
+                                                    <td class="border">'+value.class_name+'</td>\
+                                                    <td class="border">'+value.subject+'</td>\
+                                                    <td class="border">'+value.duration+'</td>\
+                                                </tr>'
+                                             ); 
+                                         });
+                                    }
+                                });
+                            });
                     }
                 });
             });
         </script>
     </head>
     <body>
-        <h4>Teacher's List <a href="addschedule"><button class="btn btn-primary last"><i class="fas fa-plus"></i>Add Schedule</button></a><a href="teacherform.html"><button class="btn btn-primary last"><i class="fas fa-plus"></i>Add Teacher</button></a></h4>
+        <h4>Teacher's List <a href="scheduleform.html"><button class="btn btn-primary last"><i class="fas fa-plus"></i>Add Schedule</button></a><a href="teacherform.html"><button class="btn btn-primary last"><i class="fas fa-plus"></i>Add Teacher</button></a></h4>
         <div id="showmsg">
              
         </div>

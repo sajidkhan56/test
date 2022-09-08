@@ -24,4 +24,6 @@ Route::post('/teacherdetails', [teacherDetailController::class, 'setTeacherDetai
 Route::get('/delete', [teacherDetailController::class, 'deleteTeacherDetails']);
 Route::get('/edit', [teacherDetailController::class, 'editTeacherDetails']);
 Route::post('/editdetails', [teacherDetailController::class, 'setEditTeacherDetails']);
+Route::post('/teacheschedule', [teacherScheduleController::class, 'setTeacherSchedule']);
+Route::get('/view', [teacherScheduleController::class, 'getTeacherSchedule']);
 
